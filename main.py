@@ -83,7 +83,7 @@ with center:
 
         plt.title("Graph (Spam vs Not Spam)")
         plt.bar(["Not Spam", "Spam"], pipeline.predict_proba([email])[0], width=0.5, color='skyblue')
-        
+        plt.xlabel("Prediction")
         plt.ylabel("Probability")
         plt.tight_layout()
         st.pyplot(plt)
