@@ -82,7 +82,9 @@ with center:
             )
 
         plt.title("Graph (Spam vs Not Spam)")
-        plt.bar(["Not Spam", "Spam"], pipeline.predict_proba([email])[0], width=0.5, color='skyblue')
+        probs = pipeline.predict_proba([email])[0]
+        plt.bar(["Not Spam", "Spam"], probs, width=0.5, color='skyblue')
+        plt.ylim(0, 1)
         
         plt.ylabel("Probability")
         plt.tight_layout()
