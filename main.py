@@ -30,7 +30,7 @@ accuracy = cross_val_score(pipeline, X_train, y_train, cv=10).mean()
 # Web code
 
 # Set page config
-st.set_page_config(page_title="Spam Email Predictor", layout="wide")
+st.set_page_config(page_title="Spam Email Predictor", layout="wide", page_icon="🚫")
 
 # Custom CSS to reduce space
 st.markdown(
