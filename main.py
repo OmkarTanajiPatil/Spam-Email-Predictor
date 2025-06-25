@@ -49,7 +49,6 @@ left, center, right = st.columns([1, 2, 1])
 
 with center:
     st.title("Spam Email Predictor")
-    st.divider()
 
     # Custom header text with tight spacing
     st.markdown(
