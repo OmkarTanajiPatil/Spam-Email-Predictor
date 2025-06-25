@@ -91,6 +91,6 @@ with center:
     st.markdown("## Dataset Preview")
     st.dataframe(dataset)
     st.markdown("### Dataset Information")
-    st.dataframe(dataset.describe())
+    st.dataframe(dataset.groupby('Category').describe())
     st.markdown(f"### Model Accuracy : {round(accuracy*100, 4)}")
     
