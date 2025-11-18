@@ -17,6 +17,26 @@ python manage.py runserver
 ```
 Open http://127.0.0.1:8000/ and paste an email body.
 
+### Quick start (Windows / PowerShell)
+Open PowerShell in the project root (the folder containing `manage.py`) and run:
+
+```powershell
+python -m venv .venv
+. \.venv\Scripts\Activate.ps1
+pip install --upgrade pip
+pip install -r .\requirements.txt
+python .\manage.py migrate
+python .\manage.py runserver
+```
+
+You can also run the helper script included in the repository which automates these steps:
+
+```powershell
+.\run.ps1
+# or to choose a port
+#.\run.ps1 -Port 8001
+```
+
 ## Using your own dataset
 1. Place `mail_data.csv` in the project root (`Mail_Spam_Check_ML/`). The file must include at least the columns `Message` and `Category` with values `spam`/`ham` (case-insensitive).
 2. Optionally set `MAIL_SPAM_DATA=/path/to/your.csv` before running the server if you store it elsewhere.
@@ -38,3 +58,27 @@ Mail_Spam_Check_ML/
 ├── requirements.txt
 └── README.md
 ```
+
+## Deploying on Render (or other container-based hosts)
+
+Render (and many other PaaS providers) set the port for your web process in the environment variable `$PORT`. To run this Django app with Gunicorn on Render, add `gunicorn` to `requirements.txt` (already present) and use the following start command:
+
+```
+gunicorn mailspamsite.wsgi:application --bind 0.0.0.0:$PORT
+```
+
+This repository includes a `Procfile` at the project root so Render will pick up the web command automatically:
+
+- `Procfile` content:
+
+```
+web: gunicorn mailspamsite.wsgi:application --bind 0.0.0.0:$PORT
+```
+
+Notes:
+- Ensure `gunicorn` is listed in `requirements.txt` so Render installs it during the build step.
+- If your app serves static files in production, configure Django's `collectstatic` and a static file host (Render has docs for serving static files). For a minimal deploy, you can also use WhiteNoise.
+- On Render, set the service type to "Web Service" and point it at the repository root. The `$PORT` variable will be provided automatically.
+
+If you'd like, I can also add WhiteNoise and a minimal staticfiles config so static assets are served correctly in production.
+
